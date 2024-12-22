@@ -1,0 +1,101 @@
+import pygame
+import sys
+
+# Initialize pygame
+pygame.init()
+
+# Screen settings
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Blox Fruits Highlighter")
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+HIGHLIGHT_COLOR = (255, 0, 0)  # Red for highlighting
+BUTTON_COLOR = (0, 0, 255)  # Blue for button
+BUTTON_HOVER_COLOR = (0, 0, 200)  # Darker blue for hover effect
+
+# All current Blox Fruits
+blox_fruits = [
+    {"name": "Bomb Fruit", "position": (100, 150)},
+    {"name": "Spike Fruit", "position": (200, 300)},
+    {"name": "Flame Fruit", "position": (400, 450)},
+    {"name": "Falcon Fruit", "position": (100, 250)},
+    {"name": "Ice Fruit", "position": (200, 350)},
+    {"name": "Sand Fruit", "position": (300, 150)},
+    {"name": "Dark Fruit", "position": (400, 250)},
+    {"name": "Diamond Fruit", "position": (500, 300)},
+    {"name": "Light Fruit", "position": (600, 400)},
+    {"name": "Rubber Fruit", "position": (700, 150)},
+    {"name": "Barrier Fruit", "position": (800, 250)},
+    {"name": "Ghost Fruit", "position": (100, 450)},
+    {"name": "Magma Fruit", "position": (200, 150)},
+    {"name": "Quake Fruit", "position": (300, 250)},
+    {"name": "Spider Fruit", "position": (400, 350)},
+    {"name": "Sound Fruit", "position": (500, 450)},
+    {"name": "Phoenix Fruit", "position": (600, 150)},
+    {"name": "Portal Fruit", "position": (700, 250)},
+    {"name": "Rumble Fruit", "position": (800, 350)},
+    {"name": "Pain Fruit", "position": (100, 150)},
+    {"name": "Blizzard Fruit", "position": (200, 300)},
+    {"name": "Gravity Fruit", "position": (400, 450)},
+    {"name": "Mammoth Fruit", "position": (500, 150)},
+    {"name": "T-Rex Fruit", "position": (600, 250)},
+    {"name": "Spirit Fruit", "position": (700, 350)},
+    {"name": "Leopard Fruit", "position": (800, 450)},
+    {"name": "Kitsune Fruit", "position": (100, 150)},
+    {"name": "Love Fruit", "position": (200, 300)},
+    {"name": "Gas Fruit", "position": (400, 450)},
+    {"name": "Dough Fruit", "position": (500, 150)},
+    {"name": "Shadow Fruit", "position": (600, 250)},
+    {"name": "Venom Fruit", "position": (700, 350)},
+    {"name": "Control Fruit", "position": (800, 450)},
+    {"name": "Dragon Fruit (East)", "position": (100, 150)},
+    {"name": "Dragon Fruit (West)", "position": (200, 300)},
+]
+
+# Font settings
+font = pygame.font.Font(None, 36)
+
+# Toggle for showing fruits
+show_fruits = True
+
+# Button settings
+button_rect = pygame.Rect(650, 500, 100, 50)
+
+def draw_fruits():
+    if show_fruits:
+        for fruit in blox_fruits:
+            pygame.draw.circle(screen, HIGHLIGHT_COLOR, fruit["position"], 20)
+            text = font.render(fruit["name"], True, BLACK)
+            screen.blit(text, (fruit["position"][0] - 20, fruit["position"][1] - 40))
+
+def draw_button():
+    mouse_pos = pygame.mouse.get_pos()
+    if button_rect.collidepoint(mouse_pos):
+        color = BUTTON_HOVER_COLOR
+    else:
+        color = BUTTON_COLOR
+    pygame.draw.rect(screen, color, button_rect)
+    button_text = font.render("Toggle", True, WHITE)
+    screen.blit(button_text, (button_rect.x + 10, button_rect.y + 10))
+
+# Main loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if button_rect.collidepoint(event.pos):
+                show_fruits = not show_fruits
+
+    screen.fill(WHITE)
+    draw_fruits()
+    draw_button()
+    pygame.display.flip()
+
+pygame.quit()
+sys.exit()
